@@ -17,6 +17,8 @@ export interface Node<
   context: NodeContext;
 }
 
+interface ValidatorConfig {}
+
 export interface Graph<
   State,
   NodeName extends string = string,
@@ -24,6 +26,22 @@ export interface Graph<
   EdgeContext = unknown
 > {
   nodes: Record<NodeName, Node<State, NodeName, NodeContext, EdgeContext>>;
+  validators: ValidatorConfig;
+}
+
+export function createGraph<
+  State,
+  NodeName extends string = string,
+  NodeContext = unknown,
+  EdgeContext = unknown
+>(
+  nodes: Graph<State, NodeName, NodeContext, EdgeContext>["nodes"],
+  validators: Partial<ValidatorConfig> = {}
+): Graph<State, NodeName, NodeContext, EdgeContext> {
+  return {
+    nodes,
+    validators,
+  };
 }
 
 export function node<
