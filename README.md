@@ -4,7 +4,7 @@ Library for representing, validating, and navigating directed graphs
 
 - Install dependencies
   ```
-  pnpm test
+  pnpm install
   ```
 - Running tests
   ```
