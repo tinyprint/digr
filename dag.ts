@@ -42,7 +42,9 @@ export function nodeWithoutContext<
   State,
   NodeName extends string,
   EdgeContext = unknown
->(edges: Edge<State, NodeName, EdgeContext>[]) {
+>(
+  edges: Edge<State, NodeName, EdgeContext>[]
+): Node<State, NodeName, null, EdgeContext> {
   return node(edges, null);
 }
 
@@ -50,7 +52,11 @@ export function to<
   State,
   NodeName extends string = string,
   EdgeContext = unknown
->(toNodeName: NodeName, when: PredicateFn<State>, context: EdgeContext) {
+>(
+  toNodeName: NodeName,
+  when: PredicateFn<State>,
+  context: EdgeContext
+): Edge<State, NodeName, EdgeContext> {
   return {
     toNodeName,
     predicate: when,
@@ -59,11 +65,10 @@ export function to<
   };
 }
 
-export function toWithoutContext<
-  State,
-  NodeName extends string = string,
-  EdgeContext = unknown
->(toNodeName: NodeName, when: PredicateFn<State>) {
+export function toWithoutContext<State, NodeName extends string = string>(
+  toNodeName: NodeName,
+  when: PredicateFn<State>
+): Edge<State, NodeName, null> {
   return to(toNodeName, when, null);
 }
 
@@ -82,11 +87,9 @@ export function catchall<
     context,
   };
 }
-export function catchallWithoutContext<
-  State,
-  NodeName extends string = string,
-  EdgeContext = unknown
->(toNodeName: NodeName) {
+export function catchallWithoutContext<State, NodeName extends string = string>(
+  toNodeName: NodeName
+): Edge<State, NodeName, null> {
   return catchall(toNodeName, null);
 }
 
