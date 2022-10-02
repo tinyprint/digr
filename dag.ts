@@ -17,7 +17,11 @@ export interface Node<
   context: NodeContext;
 }
 
-interface ValidatorConfig {}
+interface ValidatorConfig {
+  allowCycles: boolean;
+  allowConditionalEnds: boolean;
+  allowUnknownDestinations: boolean;
+}
 
 export interface Graph<
   State,
@@ -40,7 +44,12 @@ export function createGraph<
 ): Graph<State, NodeName, NodeContext, EdgeContext> {
   return {
     nodes,
-    validators,
+    validators: {
+      allowCycles: false,
+      allowConditionalEnds: false,
+      allowUnknownDestinations: false,
+      ...validators,
+    },
   };
 }
 
