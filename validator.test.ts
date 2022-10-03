@@ -143,5 +143,5 @@ it("given a graph with a cycle but the cycle validator disabled, the validator r
     }
   );
 
-  expect(getGraphErrors(graph)[0]).toHaveLength(0);
+  expect(getGraphErrors(graph)).toHaveLength(0);
 });
