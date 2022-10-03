@@ -4,13 +4,12 @@ import {
   catchall,
   catchallWithoutContext,
   createGraph,
-  Graph,
   next,
   node,
   nodeWithoutContext,
   to,
   toWithoutContext,
-} from "./dag";
+} from "./graph";
 
 interface SurveyCreator {
   questionType: "multipleChoice" | "date" | "monthYear";

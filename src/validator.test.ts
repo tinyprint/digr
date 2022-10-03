@@ -5,7 +5,7 @@ import {
   createGraph,
   nodeWithoutContext,
   toWithoutContext,
-} from "./dag";
+} from "./graph";
 import { getGraphErrors } from "./validator";
 
 interface SurveyCreator {

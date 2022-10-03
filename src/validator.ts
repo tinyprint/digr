@@ -1,4 +1,4 @@
-import { Graph, Node } from "./dag";
+import { Graph, Node } from "./graph";
 
 function nodeError(nodeName: string, error: string) {
   return `error with definition of node '${nodeName}': ${error}`;
