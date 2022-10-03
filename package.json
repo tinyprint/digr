@@ -5,7 +5,7 @@
   "main": "build/index.cjs",
   "module": "build/index.js",
   "scripts": {
-    "build": "rollup  -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "build": "rm -rf build && rollup  -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "prettier": "prettier --write .",
     "prettier-check": "prettier --check .",
     "test": "jest",

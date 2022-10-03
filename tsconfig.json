@@ -2,18 +2,21 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationDir": ".",
     "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "lib": ["ESNext"],
     "module": "ESNext",
     "moduleResolution": "Node",
-    "noEmit": true,
+    "outDir": "build",
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
     "target": "ESNext",
     "useDefineForClassFields": true
   },
+  "exclude": ["build"],
   "include": ["src", "rollup.config.ts"]
 }

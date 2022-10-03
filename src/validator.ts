@@ -13,7 +13,7 @@ type ValidatorFn = <
   graph: Graph<State, NodeName, NodeContext, EdgeContext>
 ) => string[];
 
-export function validatePrematureCatchalls<
+function validatePrematureCatchalls<
   State,
   NodeName extends string = string,
   NodeContext = unknown,
@@ -74,7 +74,7 @@ function getCyclicalErrors<
   });
 }
 
-export function validateCycles<
+function validateCycles<
   State,
   NodeName extends string = string,
   NodeContext = unknown,
@@ -85,7 +85,7 @@ export function validateCycles<
   ).flatMap(([nodeName]) => getCyclicalErrors(graph, nodeName));
 }
 
-export function validateConditionalEnds<
+function validateConditionalEnds<
   State,
   NodeName extends string = string,
   NodeContext = unknown,
@@ -114,7 +114,7 @@ export function validateConditionalEnds<
   });
 }
 
-export function validateDestinations<
+function validateDestinations<
   State,
   NodeName extends string = string,
   NodeContext = unknown,
@@ -137,7 +137,7 @@ export function validateDestinations<
   });
 }
 
-export function getGraphErrors<
+export default function validate<
   State,
   NodeName extends string = string,
   NodeContext = unknown,

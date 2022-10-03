@@ -6,7 +6,7 @@ import {
   nodeWithoutContext,
   toWithoutContext,
 } from "./graph";
-import { getGraphErrors } from "./validator";
+import validate from "./validator";
 
 interface SurveyCreator {
   questionType: "multipleChoice" | "date" | "monthYear";
@@ -32,7 +32,7 @@ it("given a valid graph, none of the validators return errors", () => {
     }
   );
 
-  expect(getGraphErrors(graph)).toEqual([]);
+  expect(validate(graph)).toEqual([]);
 });
 
 it("given a graph with an unknown destination `catchall`, the validator returns an error", () => {
@@ -40,7 +40,7 @@ it("given a graph with an unknown destination `catchall`, the validator returns 
     first: nodeWithoutContext([catchallWithoutContext("finish")]),
   });
 
-  expect(getGraphErrors(graph)[0]).toMatch(/unknown destination node.*finish/i);
+  expect(validate(graph)[0]).toMatch(/unknown destination node.*finish/i);
 });
 
 it("given a graph with an unknown destination `to`, the validator returns an error", () => {
@@ -52,7 +52,7 @@ it("given a graph with an unknown destination `to`, the validator returns an err
     finish: nodeWithoutContext([]),
   });
 
-  expect(getGraphErrors(graph)[0]).toMatch(/unknown destination node.*second/i);
+  expect(validate(graph)[0]).toMatch(/unknown destination node.*second/i);
 });
 
 it("given a graph with an unknown destinations but the unknown destinations validator off, the validator returns no errors", () => {
@@ -66,7 +66,7 @@ it("given a graph with an unknown destinations but the unknown destinations vali
     { allowUnknownDestinations: true }
   );
 
-  expect(getGraphErrors(graph)).toHaveLength(0);
+  expect(validate(graph)).toHaveLength(0);
 });
 
 it("given a graph with `to` predicates but without a `catchall`, the validator returns an error", () => {
@@ -75,7 +75,7 @@ it("given a graph with `to` predicates but without a `catchall`, the validator r
     second: nodeWithoutContext([]),
   });
 
-  expect(getGraphErrors(graph)[0]).toMatch(/catchall route is required/i);
+  expect(validate(graph)[0]).toMatch(/catchall route is required/i);
 });
 
 it("given a graph with `to` predicates but without a `catchall`, when the catchall validator is disabled, the validator returns no errors", () => {
@@ -87,7 +87,7 @@ it("given a graph with `to` predicates but without a `catchall`, when the catcha
     { allowConditionalEnds: true }
   );
 
-  expect(getGraphErrors(graph)).toHaveLength(0);
+  expect(validate(graph)).toHaveLength(0);
 });
 
 it("given a graph with a `catchall` before a conditional predicate, the validator returns an error", () => {
@@ -107,7 +107,7 @@ it("given a graph with a `catchall` before a conditional predicate, the validato
     }
   );
 
-  expect(getGraphErrors(graph)[0]).toMatch(
+  expect(validate(graph)[0]).toMatch(
     /catchall route should be the last route/i
   );
 });
@@ -119,7 +119,7 @@ it("given a graph with a cycle, the validator returns an error", () => {
     third: nodeWithoutContext([catchallWithoutContext("first")]),
   });
 
-  expect(getGraphErrors(graph)[0]).toMatch(/cycle detected/i);
+  expect(validate(graph)[0]).toMatch(/cycle detected/i);
 });
 
 it("given a graph with an immediate cycle, the validator returns an error", () => {
@@ -127,7 +127,7 @@ it("given a graph with an immediate cycle, the validator returns an error", () =
     first: nodeWithoutContext([catchallWithoutContext("first")]),
   });
 
-  expect(getGraphErrors(graph)[0]).toMatch(/cycle detected/i);
+  expect(validate(graph)[0]).toMatch(/cycle detected/i);
 });
 
 it("given a graph with a cycle but the cycle validator disabled, the validator returns no errors", () => {
@@ -143,5 +143,5 @@ it("given a graph with a cycle but the cycle validator disabled, the validator r
     }
   );
 
-  expect(getGraphErrors(graph)).toHaveLength(0);
+  expect(validate(graph)).toHaveLength(0);
 });

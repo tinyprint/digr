@@ -2,7 +2,7 @@ import type { RollupOptions } from "rollup";
 import typescript from "@rollup/plugin-typescript";
 
 const config: RollupOptions = {
-  input: "./src/graph.ts",
+  input: "./src/index.ts",
   output: [
     {
       file: "build/index.cjs",
@@ -13,7 +13,9 @@ const config: RollupOptions = {
       format: "esm",
     },
   ],
-  plugins: [typescript()],
+  plugins: [
+    typescript({ exclude: ["build", "**/*.test.ts", "rollup.config.ts"] }),
+  ],
 };
 
 export default config;
