@@ -2,8 +2,15 @@
   "name": "@tinyprint/digr",
   "version": "1.0.0",
   "description": "Library for representing, validating, and navigating directed graphs",
-  "main": "build/index.cjs",
-  "module": "build/index.js",
+  "files": [
+    "build"
+  ],
+  "main": "./build/index.cjs",
+  "module": "./build/index.js",
+  "exports": {
+    "import": "./build/index.js",
+    "require": "./build/index.cjs"
+  },
   "scripts": {
     "build": "rm -rf build && rollup  -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
     "prettier": "prettier --write .",
