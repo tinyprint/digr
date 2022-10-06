@@ -21,7 +21,7 @@
     "prettier-check": "prettier --check .",
     "test": "jest",
     "test-watch": "jest --watch",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "pnpm run build"
   },
   "keywords": [
     "directed",
