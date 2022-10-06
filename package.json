@@ -4,7 +4,7 @@
     "type": "git",
     "url": "https://github.com/tinyprint/digr.git"
   },
-  "version": "0.0.0",
+  "version": "0.0.0-a",
   "description": "Library for representing, validating, and navigating directed graphs",
   "files": [
     "build"
