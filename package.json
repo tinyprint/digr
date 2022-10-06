@@ -1,6 +1,10 @@
 {
   "name": "@tinyprint/digr",
-  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinyprint/digr.git"
+  },
+  "version": "0.0.0-a",
   "description": "Library for representing, validating, and navigating directed graphs",
   "files": [
     "build"
@@ -16,7 +20,8 @@
     "prettier": "prettier --write .",
     "prettier-check": "prettier --check .",
     "test": "jest",
-    "test-watch": "jest --watch"
+    "test-watch": "jest --watch",
+    "prepublishOnly": "pnpm run build"
   },
   "keywords": [
     "directed",
