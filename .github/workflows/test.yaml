@@ -1,7 +1,7 @@
 name: Run tests and linter checks
 on:
   push:
-    branches: [$default-branch, test-workflow]
+    branches: [$default-branch]
   pull_request:
 jobs:
   setup:
