@@ -1,4 +1,4 @@
-name: Run tests and other checks
+name: Run tests and linter checks
 on:
   push:
     branches: [$default-branch, test-workflow]
