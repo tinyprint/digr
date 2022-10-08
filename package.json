@@ -17,6 +17,7 @@
   },
   "scripts": {
     "build": "rm -rf build && rollup  -c rollup.config.ts --configPlugin @rollup/plugin-typescript",
+    "eslint-check": "eslint \"src/**\"",
     "prettier": "prettier --write .",
     "prettier-check": "prettier --check .",
     "test": "jest",
