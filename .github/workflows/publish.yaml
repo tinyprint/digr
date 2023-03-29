@@ -41,7 +41,7 @@ jobs:
       - name: Set package version
         run: pnpm version --no-git-tag-version ${{ github.event.release.tag_name }}
 
-      - run: pnpm publish --no-git-checks
+      - run: pnpm publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -50,6 +50,6 @@ jobs:
           node-version: "16.x"
           registry-url: "https://npm.pkg.github.com"
 
-      - run: pnpm publish --no-git-checks
+      - run: pnpm publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
