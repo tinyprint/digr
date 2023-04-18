@@ -8,8 +8,10 @@ import {
   node,
   nodeWithoutContext,
   to,
+  topologicalOrder,
   toWithoutContext,
 } from "./graph";
+import validate from "./validator";
 
 interface SurveyCreator {
   questionType: "multipleChoice" | "date" | "monthYear";
@@ -145,4 +147,44 @@ it("given a graph with a custom node context, some nodes can lack context", () =
 
   expect(graph.nodes.start.context?.component()).toBe("<Start>");
   expect(graph.nodes.finish.context).toBeNull();
+});
+
+it("given a graph, the topological order can be determined", () => {
+  const graph = createGraph<SurveyCreator>({
+    monthYear: nodeWithoutContext([catchallWithoutContext("finish")]),
+    questionType: nodeWithoutContext([
+      toWithoutContext("monthYear", (s) => s.questionType === "monthYear"),
+      toWithoutContext("date", (s) => s.questionType === "date"),
+      toWithoutContext(
+        "multipleChoice",
+        (s) => s.questionType === "multipleChoice"
+      ),
+      catchallWithoutContext("other"),
+    ]),
+    date: nodeWithoutContext([catchallWithoutContext("finish")]),
+    multipleChoice: nodeWithoutContext([catchallWithoutContext("details")]),
+    other: nodeWithoutContext([
+      toWithoutContext("details", (s) => s.questionType === "multipleChoice"),
+      catchallWithoutContext("unknown"),
+    ]),
+    details: nodeWithoutContext([catchallWithoutContext("finish")]),
+    unknown: nodeWithoutContext([]),
+    finish: nodeWithoutContext([]),
+    unused: nodeWithoutContext([]),
+  });
+
+  expect(validate(graph)).toHaveLength(0);
+
+  const order = topologicalOrder(graph);
+  expect([
+    order[0].sort(),
+    order[1].sort(),
+    order[2].sort(),
+    order[3].sort(),
+  ]).toEqual([
+    ["unused", "questionType"].sort(),
+    ["monthYear", "date", "multipleChoice", "other"].sort(),
+    ["details", "unknown"].sort(),
+    ["finish"].sort(),
+  ]);
 });

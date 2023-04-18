@@ -140,3 +140,70 @@ export function next<
 
   return matchedNext.toNodeName;
 }
+
+function isNodeName<
+  State,
+  NodeName extends string = string,
+  NodeContext = unknown,
+  EdgeContext = unknown
+>(
+  graph: Graph<State, NodeName, NodeContext, EdgeContext>,
+  name: string
+): name is NodeName {
+  return Object.hasOwn(graph.nodes, name);
+}
+
+export function topologicalOrder<
+  State,
+  NodeName extends string = string,
+  NodeContext = unknown,
+  EdgeContext = unknown
+>(graph: Graph<State, NodeName, NodeContext, EdgeContext>) {
+  const nodes = new Map<
+    NodeName,
+    Node<State, NodeName, NodeContext, EdgeContext>
+  >();
+  const indegrees = new Map<NodeName, number>();
+  Object.keys(graph.nodes).forEach((name) => {
+    if (isNodeName(graph, name)) {
+      nodes.set(name, graph.nodes[name]);
+      indegrees.set(name, 0);
+    }
+  });
+
+  nodes.forEach((n) => {
+    n.edges.forEach((edge) => {
+      const { toNodeName } = edge;
+      indegrees.set(toNodeName, (indegrees.get(toNodeName) || 0) + 1);
+    });
+  });
+
+  const order: NodeName[][] = [];
+  let hasChanges;
+  do {
+    hasChanges = false;
+
+    const layerNodes = Array.from(indegrees.keys()).filter(
+      (nodeName) => indegrees.get(nodeName) === 0
+    );
+    if (layerNodes.length) {
+      layerNodes.forEach((name) => indegrees.delete(name));
+      order.push(layerNodes);
+      hasChanges = true;
+    }
+
+    layerNodes.forEach((name) => {
+      const n = nodes.get(name);
+      if (!n) {
+        return;
+      }
+
+      n.edges.forEach((edge) => {
+        const { toNodeName } = edge;
+        indegrees.set(toNodeName, (indegrees.get(toNodeName) || 1) - 1);
+      });
+    });
+  } while (hasChanges);
+
+  return order;
+}
